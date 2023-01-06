@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:simple_quiz_app/widgets/button.dart';
+import 'package:simple_quiz_app/widgets/answer.dart';
+import 'package:simple_quiz_app/widgets/question.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
@@ -9,23 +10,43 @@ class HomepageScreen extends StatefulWidget {
 }
 
 class _HomepageScreenState extends State<HomepageScreen> {
-  var questionIndex = 0;
+  final questions = const [
+    {
+      'questionsText': 'What is your age?',
+      'answers': ['0-10', '11-20', '21-30', '31-40']
+    },
+    {
+      'questionsText': 'What is your favorite color?',
+      'answers': ['Red', 'Blue', 'Green', 'Yellow']
+    },
+    {
+      'questionsText': 'What is your favorite animal?',
+      'answers': ['Dog', 'Cat', 'Bird', 'Fish']
+    },
+    {
+      'questionsText': 'What is your favorite food?',
+      'answers': ['Pizza', 'Burger', 'Pasta', 'Salad']
+    },
+    {
+      'questionsText': 'What is your favorite drink?',
+      'answers': ['Water', 'Juice', 'Soda', 'Beer']
+    },
+    {
+      'questionsText': 'What is your favorite sport?',
+      'answers': ['Football', 'Basketball', 'Tennis', 'Baseball']
+    }
+  ];
+  var _questionIndex = 0;
 
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
-      questionIndex = questionIndex + 1;
+      _questionIndex = _questionIndex + 1;
     });
+    if (_questionIndex < questions.length) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What is your name?',
-      'What is your age?',
-      'What is your favorite color?',
-      'What is your favorite food?',
-      'What is your favorite animal?'
-    ];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,27 +59,25 @@ class _HomepageScreenState extends State<HomepageScreen> {
         backgroundColor: Colors.white,
         elevation: 2,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: _questionIndex < questions.length
+          ? Column(
               children: [
-                Text(
-                  questions[questionIndex],
-                  style: const TextStyle(fontSize: 20),
-                ),
-                ButtonWidget(
-                  text: 'Next Question',
-                  onPressed: answerQuestion,
-                ),
+                Question(questions[_questionIndex]['questionsText'] as String),
+                const SizedBox(height: 20),
+                ...(questions[_questionIndex]['answers'] as List<String>)
+                    .map((answer) {
+                  return Answer(_answerQuestion, answer);
+                }).toList()
               ],
+            )
+          : Center(
+              child: Container(
+                child: const Text(
+                  'You did it!',
+                  style: TextStyle(fontSize: 30),
+                ),
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 }
