@@ -71,6 +71,13 @@ class _HomepageScreenState extends State<HomepageScreen> {
   var _questionIndex = 0;
   var _totalScore = 0;
 
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   void _answerQuestion(int score) {
     _totalScore += score;
     setState(() {
@@ -102,6 +109,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
             )
           : Result(
               resultScore: _totalScore,
+              resetQuiz: _resetQuiz,
             ),
     );
   }
