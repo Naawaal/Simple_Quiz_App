@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:simple_quiz_app/widgets/answer.dart';
 
 class Result extends StatelessWidget {
-  final _containerColor = Colors.green;
   final int resultScore;
+  String comment;
+
   final Function resetQuiz;
-  const Result({
+  Result({
     super.key,
     required this.resultScore,
     required this.resetQuiz,
+    required this.comment,
   });
 
   @override
@@ -26,11 +27,18 @@ class Result extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Your score is $resultScore you did it!",
+              " $resultScore ",
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 26),
             ),
             const SizedBox(height: 20),
+            Text(
+              comment,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 26,
+              ),
+            ),
             ElevatedButton(
               onPressed: () => resetQuiz(),
               child: const Text("Restart Quiz",
